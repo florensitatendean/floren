@@ -1,0 +1,195 @@
+"""
+Nama File: Data Structure & Algoritma Assignment 3 
+Nama: Tendean,Florensita Inri 
+Date: Kamis,6 Maret 2025 
+"""
+#Program 1 
+
+# List awal
+buah = ['Apel', 'Jeruk', 'Mangga', 'Pisang', 'Anggur']
+
+# Menampilkan list sebelum perubahan
+print("List awal:", buah)
+
+# Menambahkan satu buah ke dalam list
+buah.append('Durian')
+print("List setelah penambahan:", buah)
+
+# Menghapus satu buah dari list
+buah.remove('Mangga')
+print("List setelah penghapusan:", buah)
+
+# Mengurutkan list secara alfabetis
+buah.sort()
+print("List setelah diurutkan:", buah)
+
+#Program 2 
+
+# Membuat dua set angka
+set_A = {1, 2, 3, 4, 5}
+set_B = {4, 5, 6, 7, 8}
+
+# Menampilkan kedua set
+print("Set A:", set_A)
+print("Set B:", set_B)
+
+# Menampilkan hasil irisan (A ∩ B)
+irisan = set_A & set_B
+print("Irisan (A ∩ B):", irisan)
+
+# Menampilkan hasil gabungan (A ∪ B)
+gabungan = set_A | set_B
+print("Gabungan (A ∪ B):", gabungan)
+
+# Menampilkan hasil selisih (A - B)
+selisih = set_A - set_B
+print("Selisih (A - B):", selisih)
+
+#Program 3
+
+# Membuat dictionary berisi data mahasiswa
+mahasiswa = {101: 'Andi', 102: 'Budi', 103: 'Citra'}
+
+# Menampilkan data mahasiswa sebelum perubahan
+print("Data Mahasiswa:")
+print(mahasiswa)
+
+# Menambahkan satu mahasiswa baru ke dalam dictionary
+mahasiswa[104] = 'Dewi'
+print("\nSetelah menambah mahasiswa:")
+print(mahasiswa)
+
+# Menghapus satu mahasiswa berdasarkan NIM
+del mahasiswa[102]
+print("\nSetelah menghapus mahasiswa dengan NIM 102:")
+print(mahasiswa)
+
+#Program 4
+
+# Meminta input kalimat dari pengguna
+kalimat = input("Masukkan kalimat: ")
+
+# Memisahkan kalimat menjadi kata-kata
+kata_kata = kalimat.split()
+
+# Membuat dictionary untuk menghitung frekuensi kemunculan setiap kata
+frekuensi = {}
+
+# Menghitung frekuensi setiap kata
+for kata in kata_kata:
+    if kata in frekuensi:
+        frekuensi[kata] += 1
+    else:
+        frekuensi[kata] = 1
+
+# Menampilkan hasil frekuensi kemunculan setiap kata
+print(frekuensi)
+
+#Program 5 
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+        else:
+            last = self.head
+            while last.next:
+                last = last.next
+            last.next = new_node
+
+    def search(self, value):
+        current = self.head
+        while current:
+            if current.data == value:
+                return True
+            current = current.next
+        return False
+
+    def delete(self, value):
+        current = self.head
+        if current and current.data == value:
+            self.head = current.next
+            return
+        prev = None
+        while current and current.data != value:
+            prev = current
+            current = current.next
+        if current:
+            prev.next = current.next
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+
+# Contoh penggunaan
+ll = LinkedList()
+ll.append(10)
+ll.append(20)
+ll.append(30)
+ll.append(40)
+
+ll.display()
+print("Found 20:", ll.search(20))
+ll.delete(20)
+ll.display()
+
+# Program 6
+
+class Dokumen:
+    def __init__(self):
+        self.teks = ""
+        self.history_undo = []  # Stack untuk menyimpan teks yang di-undo
+        self.history_redo = []  # Stack untuk menyimpan teks yang di-redo
+
+    # Menambahkan teks ke dalam dokumen
+    def tulis(self, teks):
+        self.history_undo.append(self.teks)  # Simpan teks sebelum perubahan
+        self.teks += teks
+        self.history_redo.clear()  # Menghapus redo history saat ada perubahan baru
+        print("Teks setelah ditulis:", self.teks)
+
+    # Mengembalikan teks terakhir yang ditambahkan (undo)
+    def undo(self):
+        if self.history_undo:
+            self.history_redo.append(self.teks)  # Simpan teks sebelum undo
+            self.teks = self.history_undo.pop()  # Kembalikan teks ke kondisi sebelumnya
+            print("Teks setelah undo:", self.teks)
+        else:
+            print("Tidak ada perubahan yang dapat di-undo.")
+
+    # Mengembalikan teks yang di-undo (redo)
+    def redo(self):
+        if self.history_redo:
+            self.history_undo.append(self.teks)  # Simpan teks sebelum redo
+            self.teks = self.history_redo.pop()  # Kembalikan teks yang di-redo
+            print("Teks setelah redo:", self.teks)
+        else:
+            print("Tidak ada perubahan yang dapat di-redo.")
+
+
+# Contoh penggunaan
+dokumen = Dokumen()
+
+dokumen.tulis("Halo, Floren!") # Menambahkan teks
+dokumen.tulis("Selamat datang di program undo dan redo. ")  # Menambahkan teks lagi
+
+dokumen.undo()  # Melakukan undo
+dokumen.redo()  # Melakukan redo
+
+dokumen.tulis("Ini adalah teks baru. ")  # Menambahkan teks setelah redo
+dokumen.undo()  # Melakukan undo lagi
+
+
+
